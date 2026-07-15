@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -38,3 +39,37 @@ avg_wind = data.groupby("Location")["Wind_Speed_kmh"].mean()
 print("Average Wind Speed of Country: {wind_speed} km/h")
 print(f"===Average Wind Speed by Location===")
 print(avg_wind)
+
+#PRECIPITATION
+precipitation = data["Precipitation_mm"].mean()
+avg_precipitation = data.groupby("Location")["Precipitation_mm"].mean()
+print("Average Precipitation of Country: {precipitation} mm")
+print(f"===Average Precipitation by Location===")
+print(avg_precipitation)
+
+locations = data["Location"].unique()
+figures,axes = plt.subplots(2,2)
+
+font = dict(fontfamily = "serif", fontsize = 10)
+axes[0,0].set_title("Temperature in USA", fontfamily='serif',fontsize=12)
+axes[0,0].barh(avg_temp.index,avg_temp,color='orange')
+axes[0,0].set_ylabel("Cities in USA",**font)
+axes[0,0].set_xlabel("Temperature in Celsius",**font)
+
+axes[0,1].set_title("Humidity in USA", fontfamily='serif',fontsize=12)
+axes[0,1].barh(avg_humidity.index,avg_humidity,color='blue')
+axes[0,1].set_ylabel("Cities in USA",**font)
+axes[0,1].set_xlabel("Humidity in %",**font)
+
+axes[1,0].set_title("Wind Speed in USA", fontfamily='serif',fontsize=12)
+axes[1,0].barh(avg_wind.index,avg_wind,color='green')
+axes[1,0].set_ylabel("Cities in USA",**font)
+axes[1,0].set_xlabel("Wind Speed in km/h",**font)
+
+axes[1,1].set_title("Precipitation in USA", fontfamily='serif',fontsize=12)
+axes[1,1].barh(avg_precipitation.index,avg_precipitation,color='purple')
+axes[1,1].set_ylabel("Cities in USA",**font)
+axes[1,1].set_xlabel("Precipitation in mm",**font)
+
+plt.tight_layout()
+plt.show()

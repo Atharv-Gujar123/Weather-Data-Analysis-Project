@@ -18,4 +18,23 @@ data.fillna({
 data["Month"] = data["Date_Time"].dt.month
 data["Day"] = data["Date_Time"].dt.day
 
-print(data.head())
+#TEMPERATURE
+temp = data["Temperature_C"].mean()
+avg_temp = data.groupby("Location")["Temperature_C"].mean()
+print("Average Temperature of Country: {temp} C")
+print(f"===Average Temperature by Location===")
+print(avg_temp)
+
+#HUMIDITY
+humidity = data["Humidity_pct"].mean()
+avg_humidity = data.groupby("Location")["Humidity_pct"].mean()
+print("Average Humidity of Country: {humidity} %")
+print(f"===Average Humidity by Location===")
+print(avg_humidity)
+
+#WIND SPEED
+wind_speed = data["Wind_Speed_kmh"].mean()
+avg_wind = data.groupby("Location")["Wind_Speed_kmh"].mean()
+print("Average Wind Speed of Country: {wind_speed} km/h")
+print(f"===Average Wind Speed by Location===")
+print(avg_wind)

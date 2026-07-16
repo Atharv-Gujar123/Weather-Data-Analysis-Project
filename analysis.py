@@ -13,8 +13,7 @@ def show_average(column):
 
 def location_average(location,column):
     return data.groupby(location)[column].mean()
-print("==NEW YORK==")
-print(data[data["Location"] == "New York"])
+
 data.fillna({
     "Precipitation_mm":0,
     "Temperature_C":data["Temperature_C"].mean(),
@@ -22,10 +21,23 @@ data.fillna({
     "Humidity_pct":data["Humidity_pct"].mean()
 }, inplace=True)
 
-data["Month"] = data["Date_Time"].dt.month_name()
+data["Month"] = data["Date_Time"].dt.month
 data["Day"] = data["Date_Time"].dt.day
 data["Year"] = data["Date_Time"].dt.year
 
+def monthly_avg(column):
+    results = {}
+    for x in data["Location"].unique():
+        results[x] =(data[data["Location"] == x].groupby("Month")[column].mean())
+    return results
+monthly_temp = monthly_avg("Temperature_C")
+monthly_rain = monthly_avg("Precipitation_mm")
+print("=== MONTHLY TEMPERATURE ===")
+print(monthly_temp)
+print()
+print("=== MONTHLY PRECIPITATION ===")
+print(monthly_rain)
+print()
 #TEMPERATURE
 temp = show_average("Temperature_C")
 avg_temp = location_average("Location","Temperature_C")
@@ -75,12 +87,21 @@ print(f"Wettest City : {avg_precipitation.idxmax()} == Average Temperature : {av
 print(f"Driest City:  {avg_precipitation.idxmin()} == Average Temperature : {avg_precipitation.min():.2f} mm")
 
 corr = data[["Temperature_C","Humidity_pct","Wind_Speed_kmh","Precipitation_mm"]].corr()
-
-
-figures,axes = plt.subplots(2,2)
-
 font = dict(fontfamily = "serif", fontsize = 10)
 title = dict(fontfamily='serif',fontsize=12)
+
+months = ["Jan","Feb","Mar","Apr","May"]
+for city,values in monthly_temp.items():
+    plt.plot(values.index,values.values,label=city,marker="o")
+    plt.xticks(values.index,months)
+plt.title("Monthly Average Temperature",**title)
+plt.xlabel("Months",**font)
+plt.ylabel("Temperature in Celcius",**font)
+plt.legend(ncol=2)
+plt.tight_layout()
+plt.show()
+
+figures,axes = plt.subplots(2,2)
 
 axes[0,0].set_title("Temperature in USA", **title)
 axes[0,0].barh(avg_temp.index,avg_temp,color='orange')

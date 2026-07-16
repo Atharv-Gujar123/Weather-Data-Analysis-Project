@@ -68,6 +68,9 @@ print("==PRECIPITATION==")
 print(f"Wettest City : {avg_precipitation.idxmax()} == Average Temperature : {avg_precipitation.max(): 2f} mm")
 print(f"Driest City:  {avg_precipitation.idxmin()} == Average Temperature : {avg_precipitation.min(): 2f} mm")
 
+corr = data[["Temperature_C","Humidity_pct","Wind_Speed_kmh","Precipitation_mm"]].corr()
+
+
 figures,axes = plt.subplots(2,2)
 
 font = dict(fontfamily = "serif", fontsize = 10)
@@ -118,5 +121,17 @@ ax1[1,1].hist(data["Precipitation_mm"],bins=10,edgecolor="white",color="purple")
 ax1[1,1].set_ylabel("Precipitation in mm",**font)
 ax1[1,1].set_xlabel("Number of Records",**font)
 
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(6,5))
+plt.imshow(corr,cmap="turbo")
+plt.title("Correlation Matrix",**title)
+plt.xticks(range(len(corr.columns)),corr.columns,rotation=25,**font)
+plt.yticks(range(len(corr.columns)),corr.columns,**font)
+
+for x in range(len(corr.columns)):
+    for y in range(len(corr.columns)):
+        plt.text(y,x,f"{corr.iloc[x,y]: .2f}", ha="center",va="center")
 plt.tight_layout()
 plt.show()

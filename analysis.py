@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import calendar
+#LOAD DATASET
 data = pd.read_csv('Weather/archive/weather_data.csv',nrows=1000)
 data["Date_Time"] = pd.to_datetime(data["Date_Time"])
 print("===Original Data===")
@@ -14,6 +15,7 @@ def show_average(column):
 def location_average(location,column):
     return data.groupby(location)[column].mean()
 
+#DATA CLEANING
 data.fillna({
     "Precipitation_mm":0,
     "Temperature_C":data["Temperature_C"].mean(),
@@ -33,12 +35,16 @@ def monthly_avg(column):
     return results
 monthly_temp = monthly_avg("Temperature_C")
 monthly_rain = monthly_avg("Precipitation_mm")
+
+# MONTHLY ANALYSIS
+
 print("=== MONTHLY TEMPERATURE ===")
 print(monthly_temp)
 print()
 print("=== MONTHLY PRECIPITATION ===")
 print(monthly_rain)
 print()
+
 #TEMPERATURE
 temp = show_average("Temperature_C")
 avg_temp = location_average("Location","Temperature_C")
@@ -67,6 +73,8 @@ print(f"Average Precipitation of Country: {precipitation:.2f} mm")
 print(f"===Average Precipitation by Location===")
 print(avg_precipitation)
 
+# SUMMARY STATISTICS
+
 print()
 print("==TEMPERATURE==")
 print(f"Hottest City : {avg_temp.idxmax()} == Average Temperature : {avg_temp.max():.2f} C")
@@ -74,37 +82,41 @@ print(f"Coldest City:  {avg_temp.idxmin()} Average Temperature : {avg_temp.min()
 
 print()
 print("==HUMIDITY==")
-print(f"Most Humid City : {avg_humidity.idxmax()} == Average Temperature : {avg_humidity.max():.2f} %")
-print(f"Least Humid City:  {avg_humidity.idxmin()} == Average Temperature : {avg_humidity.min():.2f} %")
+print(f"Most Humid City : {avg_humidity.idxmax()} == Average Humidity : {avg_humidity.max():.2f} %")
+print(f"Least Humid City:  {avg_humidity.idxmin()} == Average Humidity : {avg_humidity.min():.2f} %")
 
 print()
 print("==WIND SPEED==")
-print(f"Most Windiest City : {avg_wind.idxmax()} == Average Temperature : {avg_wind.max():.2f} km/hr")
-print(f"Least Windiest City:  {avg_wind.idxmin()} == Average Temperature : {avg_wind.min():.2f} km/hr")
+print(f"Most Windiest City : {avg_wind.idxmax()} == Average Wind Speed : {avg_wind.max():.2f} km/hr")
+print(f"Least Windiest City:  {avg_wind.idxmin()} == Average Wind Speed : {avg_wind.min():.2f} km/hr")
 
 print()
 print("==PRECIPITATION==")
-print(f"Wettest City : {avg_precipitation.idxmax()} == Average Temperature : {avg_precipitation.max():.2f} mm")
-print(f"Driest City:  {avg_precipitation.idxmin()} == Average Temperature : {avg_precipitation.min():.2f} mm")
+print(f"Wettest City : {avg_precipitation.idxmax()} == Average Precipitation : {avg_precipitation.max():.2f} mm")
+print(f"Driest City:  {avg_precipitation.idxmin()} == Average Precipitation : {avg_precipitation.min():.2f} mm")
 
 corr = data[["Temperature_C","Humidity_pct","Wind_Speed_kmh","Precipitation_mm"]].corr()
 font = dict(fontfamily = "serif", fontsize = 10)
 title = dict(fontfamily='serif',fontsize=12)
 
-months = ["Jan","Feb","Mar","Apr","May"]
+
+
+# VISUALIZATIONS
 for city,values in monthly_temp.items():
     plt.plot(values.index,values.values,label=city,marker="o")
+    months = [calendar.month_abbr[m] for m in values.index]
     plt.xticks(values.index,months)
 plt.grid()
 plt.title("Monthly Average Temperature",**title)
 plt.xlabel("Months",**font)
-plt.ylabel("Temperature in Celcius",**font)
+plt.ylabel("Temperature in Celsius",**font)
 plt.legend(ncol=2)
 plt.tight_layout()
 plt.show()
 
 for city,values in monthly_rain.items():
     plt.plot(values.index,values.values,label=city,marker="o")
+    months = [calendar.month_abbr[m] for m in values.index]
     plt.xticks(values.index,months)
 plt.grid()
 plt.title("Monthly Average Precipitation",**title)
@@ -116,22 +128,22 @@ plt.show()
 
 figures,axes = plt.subplots(2,2)
 
-axes[0,0].set_title("Temperature in USA", **title)
+axes[0,0].set_title("Average Temperature by City", **title)
 axes[0,0].barh(avg_temp.index,avg_temp,color='orange')
 axes[0,0].set_ylabel("Cities in USA",**font)
 axes[0,0].set_xlabel("Temperature in Celsius",**font)
 
-axes[0,1].set_title("Humidity in USA", **title)
+axes[0,1].set_title("Average Humidity by City", **title)
 axes[0,1].barh(avg_humidity.index,avg_humidity,color='blue')
 axes[0,1].set_ylabel("Cities in USA",**font)
 axes[0,1].set_xlabel("Humidity in %",**font)
 
-axes[1,0].set_title("Wind Speed in USA", **title)
+axes[1,0].set_title("Average Wind Speed by City", **title)
 axes[1,0].barh(avg_wind.index,avg_wind,color='green')
 axes[1,0].set_ylabel("Cities in USA",**font)
 axes[1,0].set_xlabel("Wind Speed in km/h",**font)
 
-axes[1,1].set_title("Precipitation in USA", **title)
+axes[1,1].set_title("Average Precipitation by City", **title)
 axes[1,1].barh(avg_precipitation.index,avg_precipitation,color='purple')
 axes[1,1].set_ylabel("Cities in USA",**font)
 axes[1,1].set_xlabel("Precipitation in mm",**font)
@@ -167,6 +179,7 @@ plt.show()
 plt.figure(figsize=(6,5))
 plt.imshow(corr,cmap="turbo")
 plt.colorbar()
+plt.clim(-1,1)
 plt.title("Correlation Matrix",**title)
 plt.xticks(range(len(corr.columns)),corr.columns,rotation=25,**font)
 plt.yticks(range(len(corr.columns)),corr.columns,**font)

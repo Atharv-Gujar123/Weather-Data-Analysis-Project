@@ -47,10 +47,27 @@ avg_precipitation = data.groupby("Location")["Precipitation_mm"].mean()
 print(f"Average Precipitation of Country: {precipitation} mm")
 print(f"===Average Precipitation by Location===")
 print(avg_precipitation)
-print()
 
-print(f"Hottest City : {avg_temp.idxmax()} Average Temperature : {avg_temp.max(): 2f} C")
+print()
+print("==TEMPERATURE==")
+print(f"Hottest City : {avg_temp.idxmax()} == Average Temperature : {avg_temp.max(): 2f} C")
 print(f"Coldest City:  {avg_temp.idxmin()} Average Temperature : {avg_temp.min(): 2f} C")
+
+print()
+print("==HUMIDITY==")
+print(f"Most Humid City : {avg_humidity.idxmax()} == Average Temperature : {avg_humidity.max(): 2f} %")
+print(f"Least Humid City:  {avg_humidity.idxmin()} == Average Temperature : {avg_humidity.min(): 2f} %")
+
+print()
+print("==WIND SPEED==")
+print(f"Most Windiest City : {avg_wind.idxmax()} == Average Temperature : {avg_wind.max(): 2f} km/hr")
+print(f"Least Windiest City:  {avg_wind.idxmin()} == Average Temperature : {avg_wind.min(): 2f} km/hr")
+
+print()
+print("==PRECIPITATION==")
+print(f"Wettest City : {avg_precipitation.idxmax()} == Average Temperature : {avg_precipitation.max(): 2f} mm")
+print(f"Driest City:  {avg_precipitation.idxmin()} == Average Temperature : {avg_precipitation.min(): 2f} mm")
+
 figures,axes = plt.subplots(2,2)
 
 font = dict(fontfamily = "serif", fontsize = 10)

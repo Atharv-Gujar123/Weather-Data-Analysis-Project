@@ -101,6 +101,16 @@ plt.legend(ncol=2)
 plt.tight_layout()
 plt.show()
 
+for city,values in monthly_rain.items():
+    plt.plot(values.index,values.values,label=city,marker="o")
+    plt.xticks(values.index,months)
+plt.title("Monthly Average Precipitaion",**title)
+plt.xlabel("Months",**font)
+plt.ylabel("Precipitation in mm",**font)
+plt.legend(ncol=2)
+plt.tight_layout()
+plt.show()
+
 figures,axes = plt.subplots(2,2)
 
 axes[0,0].set_title("Temperature in USA", **title)

@@ -1,4 +1,3 @@
-
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -9,6 +8,13 @@ print(data.head())
 print(data.info())
 print(data.describe())
 
+def show_average(column):
+    return data[column].mean()
+
+def location_average(location,column):
+    return data.groupby(location)[column].mean()
+print("==NEW YORK==")
+print(data[data["Location"] == "New York"])
 data.fillna({
     "Precipitation_mm":0,
     "Temperature_C":data["Temperature_C"].mean(),
@@ -21,52 +27,52 @@ data["Day"] = data["Date_Time"].dt.day
 data["Year"] = data["Date_Time"].dt.year
 
 #TEMPERATURE
-temp = data["Temperature_C"].mean()
-avg_temp = data.groupby("Location")["Temperature_C"].mean()
-print(f"Average Temperature of Country: {temp} C")
+temp = show_average("Temperature_C")
+avg_temp = location_average("Location","Temperature_C")
+print(f"Average Temperature of Country: {temp:.2f} C")
 print(f"===Average Temperature by Location===")
 print(avg_temp)
 
 #HUMIDITY
-humidity = data["Humidity_pct"].mean()
-avg_humidity = data.groupby("Location")["Humidity_pct"].mean()
-print(f"Average Humidity of Country: {humidity} %")
+humidity = show_average("Humidity_pct")
+avg_humidity = location_average("Location","Humidity_pct")
+print(f"Average Humidity of Country: {humidity:.2f} %")
 print(f"===Average Humidity by Location===")
 print(avg_humidity)
 
 #WIND SPEED
-wind_speed = data["Wind_Speed_kmh"].mean()
-avg_wind = data.groupby("Location")["Wind_Speed_kmh"].mean()
-print(f"Average Wind Speed of Country: {wind_speed} km/h")
+wind_speed = show_average("Wind_Speed_kmh")
+avg_wind = location_average("Location","Wind_Speed_kmh")
+print(f"Average Wind Speed of Country: {wind_speed:.2f} km/h")
 print(f"===Average Wind Speed by Location===")
 print(avg_wind)
 
 #PRECIPITATION
-precipitation = data["Precipitation_mm"].mean()
-avg_precipitation = data.groupby("Location")["Precipitation_mm"].mean()
-print(f"Average Precipitation of Country: {precipitation} mm")
+precipitation = show_average("Precipitation_mm")
+avg_precipitation = location_average("Location","Precipitation_mm")
+print(f"Average Precipitation of Country: {precipitation:.2f} mm")
 print(f"===Average Precipitation by Location===")
 print(avg_precipitation)
 
 print()
 print("==TEMPERATURE==")
-print(f"Hottest City : {avg_temp.idxmax()} == Average Temperature : {avg_temp.max(): 2f} C")
-print(f"Coldest City:  {avg_temp.idxmin()} Average Temperature : {avg_temp.min(): 2f} C")
+print(f"Hottest City : {avg_temp.idxmax()} == Average Temperature : {avg_temp.max():.2f} C")
+print(f"Coldest City:  {avg_temp.idxmin()} Average Temperature : {avg_temp.min():2f} C")
 
 print()
 print("==HUMIDITY==")
-print(f"Most Humid City : {avg_humidity.idxmax()} == Average Temperature : {avg_humidity.max(): 2f} %")
-print(f"Least Humid City:  {avg_humidity.idxmin()} == Average Temperature : {avg_humidity.min(): 2f} %")
+print(f"Most Humid City : {avg_humidity.idxmax()} == Average Temperature : {avg_humidity.max():.2f} %")
+print(f"Least Humid City:  {avg_humidity.idxmin()} == Average Temperature : {avg_humidity.min():.2f} %")
 
 print()
 print("==WIND SPEED==")
-print(f"Most Windiest City : {avg_wind.idxmax()} == Average Temperature : {avg_wind.max(): 2f} km/hr")
-print(f"Least Windiest City:  {avg_wind.idxmin()} == Average Temperature : {avg_wind.min(): 2f} km/hr")
+print(f"Most Windiest City : {avg_wind.idxmax()} == Average Temperature : {avg_wind.max():.2f} km/hr")
+print(f"Least Windiest City:  {avg_wind.idxmin()} == Average Temperature : {avg_wind.min():.2f} km/hr")
 
 print()
 print("==PRECIPITATION==")
-print(f"Wettest City : {avg_precipitation.idxmax()} == Average Temperature : {avg_precipitation.max(): 2f} mm")
-print(f"Driest City:  {avg_precipitation.idxmin()} == Average Temperature : {avg_precipitation.min(): 2f} mm")
+print(f"Wettest City : {avg_precipitation.idxmax()} == Average Temperature : {avg_precipitation.max():.2f} mm")
+print(f"Driest City:  {avg_precipitation.idxmin()} == Average Temperature : {avg_precipitation.min():.2f} mm")
 
 corr = data[["Temperature_C","Humidity_pct","Wind_Speed_kmh","Precipitation_mm"]].corr()
 
@@ -103,35 +109,36 @@ fig1,ax1 = plt.subplots(2,2)
 
 ax1[0,0].set_title("Temperature Distribution",**title)
 ax1[0,0].hist(data['Temperature_C'],bins=10,edgecolor="white",color="orange")
-ax1[0,0].set_ylabel("Temperature in Celcius",**font)
-ax1[0,0].set_xlabel("Number of Records",**font)
+ax1[0,0].set_xlabel("Temperature in Celcius",**font)
+ax1[0,0].set_ylabel("Frequency",**font)
 
 ax1[0,1].set_title("Humidity Distribution",**title)
 ax1[0,1].hist(data["Humidity_pct"],bins=10,edgecolor="white")
-ax1[0,1].set_ylabel("Humidity in %",**font)
-ax1[0,1].set_xlabel("Number of Records",**font)
+ax1[0,1].set_xlabel("Humidity in %",**font)
+ax1[0,1].set_ylabel("Frequency",**font)
 
 ax1[1,0].set_title("Wind Speed Distribution",**title)
 ax1[1,0].hist(data["Wind_Speed_kmh"],bins=10,edgecolor="white",color="green")
-ax1[1,0].set_ylabel("Wind Speed in km/hr",**font)
-ax1[1,0].set_xlabel("Number of Records",**font)
+ax1[1,0].set_xlabel("Wind Speed in km/hr",**font)
+ax1[1,0].set_ylabel("Frequency",**font)
 
 ax1[1,1].set_title("Precipitation Distribution",**title)
 ax1[1,1].hist(data["Precipitation_mm"],bins=10,edgecolor="white",color="purple")
-ax1[1,1].set_ylabel("Precipitation in mm",**font)
-ax1[1,1].set_xlabel("Number of Records",**font)
+ax1[1,1].set_xlabel("Precipitation in mm",**font)
+ax1[1,1].set_ylabel("Frequency",**font)
 
 plt.tight_layout()
 plt.show()
 
 plt.figure(figsize=(6,5))
 plt.imshow(corr,cmap="turbo")
+plt.colorbar()
 plt.title("Correlation Matrix",**title)
 plt.xticks(range(len(corr.columns)),corr.columns,rotation=25,**font)
 plt.yticks(range(len(corr.columns)),corr.columns,**font)
 
 for x in range(len(corr.columns)):
     for y in range(len(corr.columns)):
-        plt.text(y,x,f"{corr.iloc[x,y]: .2f}", ha="center",va="center")
+        plt.text(y,x,f"{corr.iloc[x,y]:.2f}", ha="center",va="center")
 plt.tight_layout()
 plt.show()

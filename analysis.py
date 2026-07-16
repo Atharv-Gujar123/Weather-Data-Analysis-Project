@@ -27,8 +27,9 @@ data["Year"] = data["Date_Time"].dt.year
 
 def monthly_avg(column):
     results = {}
+    grouped = data.groupby(["Location","Month"])[column].mean()
     for x in data["Location"].unique():
-        results[x] =(data[data["Location"] == x].groupby("Month")[column].mean())
+        results[x] = grouped.loc[x]
     return results
 monthly_temp = monthly_avg("Temperature_C")
 monthly_rain = monthly_avg("Precipitation_mm")
@@ -94,6 +95,7 @@ months = ["Jan","Feb","Mar","Apr","May"]
 for city,values in monthly_temp.items():
     plt.plot(values.index,values.values,label=city,marker="o")
     plt.xticks(values.index,months)
+plt.grid()
 plt.title("Monthly Average Temperature",**title)
 plt.xlabel("Months",**font)
 plt.ylabel("Temperature in Celcius",**font)
@@ -104,7 +106,8 @@ plt.show()
 for city,values in monthly_rain.items():
     plt.plot(values.index,values.values,label=city,marker="o")
     plt.xticks(values.index,months)
-plt.title("Monthly Average Precipitaion",**title)
+plt.grid()
+plt.title("Monthly Average Precipitation",**title)
 plt.xlabel("Months",**font)
 plt.ylabel("Precipitation in mm",**font)
 plt.legend(ncol=2)
@@ -140,7 +143,7 @@ fig1,ax1 = plt.subplots(2,2)
 
 ax1[0,0].set_title("Temperature Distribution",**title)
 ax1[0,0].hist(data['Temperature_C'],bins=10,edgecolor="white",color="orange")
-ax1[0,0].set_xlabel("Temperature in Celcius",**font)
+ax1[0,0].set_xlabel("Temperature in Celsius",**font)
 ax1[0,0].set_ylabel("Frequency",**font)
 
 ax1[0,1].set_title("Humidity Distribution",**title)

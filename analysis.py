@@ -98,22 +98,22 @@ plt.show()
 
 fig1,ax1 = plt.subplots(2,2)
 
-ax1[0,0].set_title("Temperature",**title)
+ax1[0,0].set_title("Temperature Distribution",**title)
 ax1[0,0].hist(data['Temperature_C'],bins=10,edgecolor="white",color="orange")
 ax1[0,0].set_ylabel("Temperature in Celcius",**font)
 ax1[0,0].set_xlabel("Number of Records",**font)
 
-ax1[0,1].set_title("Humidity",**title)
+ax1[0,1].set_title("Humidity Distribution",**title)
 ax1[0,1].hist(data["Humidity_pct"],bins=10,edgecolor="white")
 ax1[0,1].set_ylabel("Humidity in %",**font)
 ax1[0,1].set_xlabel("Number of Records",**font)
 
-ax1[1,0].set_title("Wind Speed",**title)
+ax1[1,0].set_title("Wind Speed Distribution",**title)
 ax1[1,0].hist(data["Wind_Speed_kmh"],bins=10,edgecolor="white",color="green")
 ax1[1,0].set_ylabel("Wind Speed in km/hr",**font)
 ax1[1,0].set_xlabel("Number of Records",**font)
 
-ax1[1,1].set_title("Precipitation",**title)
+ax1[1,1].set_title("Precipitation Distribution",**title)
 ax1[1,1].hist(data["Precipitation_mm"],bins=10,edgecolor="white",color="purple")
 ax1[1,1].set_ylabel("Precipitation in mm",**font)
 ax1[1,1].set_xlabel("Number of Records",**font)

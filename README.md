@@ -6,3 +6,21 @@
 - Python
 - Pandas
 - Matplotlib
+
+## Graphs
+
+# Monthly Temperature
+![Monthly Temperature](Graphs/Monthly_Avg_Temp.png)
+
+# Monthly Precipitation
+![Monthly Precipitation](Graphs/Monthly_Avg_rain.png)
+
+# Average Temperature by City
+![Average Temperature by City](Graphs/Avg_Temp_by_City.png)
+
+# Weather Parameter Distribution 
+![Weather Parameter Distrubution](Graphs/Distribution_hist.png)
+
+# Correlation Matrix
+![Correlation Matrix](Graphs/corr_matrix.png)
+

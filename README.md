@@ -22,5 +22,5 @@
 ![Weather Parameter Distrubution](Graphs/Distribution_hist.png)
 
 # Correlation Matrix
-![Correlation Matrix](corr_matrix.png)
+![Correlation Matrix](Graphs/corr_matrix.png)
 

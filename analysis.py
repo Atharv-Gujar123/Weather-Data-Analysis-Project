@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import calendar
+
 #LOAD DATASET
 data = pd.read_csv('Weather/archive/weather_data.csv',nrows=1000)
 data["Date_Time"] = pd.to_datetime(data["Date_Time"])
@@ -37,7 +38,6 @@ monthly_temp = monthly_avg("Temperature_C")
 monthly_rain = monthly_avg("Precipitation_mm")
 
 # MONTHLY ANALYSIS
-
 print("=== MONTHLY TEMPERATURE ===")
 print(monthly_temp)
 print()
@@ -74,7 +74,6 @@ print(f"===Average Precipitation by Location===")
 print(avg_precipitation)
 
 # SUMMARY STATISTICS
-
 print()
 print("==TEMPERATURE==")
 print(f"Hottest City : {avg_temp.idxmax()} == Average Temperature : {avg_temp.max():.2f} C")
@@ -98,8 +97,6 @@ print(f"Driest City:  {avg_precipitation.idxmin()} == Average Precipitation : {a
 corr = data[["Temperature_C","Humidity_pct","Wind_Speed_kmh","Precipitation_mm"]].corr()
 font = dict(fontfamily = "serif", fontsize = 10)
 title = dict(fontfamily='serif',fontsize=12)
-
-
 
 # VISUALIZATIONS
 for city,values in monthly_temp.items():

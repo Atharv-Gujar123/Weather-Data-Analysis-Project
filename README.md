@@ -13,7 +13,7 @@
 ![Monthly Temperature](Graphs/Monthly_Avg_Temp.png)
 
 # Monthly Precipitation
-![Monthly Precipitation](Graphs/Monthly_Avg_Rain.png)
+![Monthly Precipitation](Graphs/Monthly_Avg_rain.png)
 
 # Average Temperature by City
 ![Average Temperature by City](Graphs/Avg_Temp_by_City.png)
